@@ -5,7 +5,10 @@ import numpy as np
 
 master = tk.Tk()  # Create the main window
 
-def create_graph(): #tworzenie wykresu
+master.title("Program do wizualizacji danych")
+master.geometry("475x377")
+
+def create_graph():  # tworzenie wykresu
     x, y = np.loadtxt('example.txt', delimiter='\t', unpack=True)
     plt.bar(x, y)
     plt.ylabel('Wartość natężenia ruchu')
@@ -13,10 +16,21 @@ def create_graph(): #tworzenie wykresu
     plt.title('Natezenie ruchu w systemie w danej minucie')
     plt.show()
 
-Label(master, text='Aplikacja',width=30).grid(row=0,pady=4,column=0)
-Button(master, text='Narysuj wykres', command=create_graph,width=30,height=6).grid(row=1,column=0)
-Button(master, text='Obliczenia', command=create_graph,width=30,height=6).grid(row=1,column=1)
-Button(master, text='Informacje', command=create_graph,width=30,height=6).grid(row=2,column=0)
-Button(master, text='O autorach', command=create_graph,width=30,height=6).grid(row=2,column=1)
+
+
+Label(master, text='MENU APLIKACJI',
+      width=30, font="Times 20 bold").grid(row=0, pady=4,padx=4,column=0,columnspan=3)
+Button(master, text='Instrukcja',
+       command="", width=30, height=6).grid(row=1, column=0)
+Button(master, text='Zaladuj plik',
+       command="", width=30, height=6).grid(row=1, column=1)
+Button(master, text='Rysuj wykres',
+       command=create_graph, width=30, height=6).grid(row=2, column=0)
+Button(master, text='Obliczenia',
+       command="", width=30, height=6).grid(row=2, column=1,pady=10)
+Button(master, text='Informacje',
+       command="", width=30, height=6).grid(row=3, column=0)
+Button(master, text='O autorach',
+       command="", width=30, height=6).grid(row=3, column=1)
 
 master.mainloop()
