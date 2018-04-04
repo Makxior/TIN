@@ -7,9 +7,13 @@ import tkinter.filedialog
 master = Tk()  # Create the main window
 
 tekst1 = "Instrukcja obsługi aplikacji"
-tekst2 ="1.Wczytywanie pliku: " \
-        "\n a)najpierw proszę wybrać plik z <tutaj to co jest w pierwszym pliku xd>\n" \
-        "b)następnie proszę wybrać plik z <tutaj to co jest w drugim pliku> xd>"
+tekst2 = "1.Wczytywanie plików: " \
+    "\n a) najpierw wybierz plik w którym znajdują się informacje intensywnośći wywołań.\n" \
+    "Plik musi zawierać dwie kolumny. W pierwszej kolumnie są kolejne minuty doby zaczynając od północy.\n "\
+    "W drugiej natomiast zapisz intensywności w danej minucie (λ). Kolumny muszą być oddzielone tabulatorem.\n"\
+    "Jeśli w danej minucie nie było żadnej intensywności nie należy jej umieszczać w pliku.\n"\
+    "b)następnie proszę wybrać plik w którym znajdują się wszytskie czasy połączeń (w minutach).\n"\
+    "Kazda wartosc powinna sie znajdowac w nowym wierszu"
 tekst3 ="Autorzy: Grzegorz Dzikowski i Kamil Michalski"
 
 
@@ -22,7 +26,7 @@ def instrukcja():
     instrukcja = tk.Tk()
     rama = Frame(instrukcja)
     instrukcja.title("Instrukcja obslugi aplikacji")
-    instrukcja.geometry("488x260")
+    instrukcja.geometry("800x200")
     #instrukcja.configure(bg="lightpink")
     rama.pack()
     Label(rama, text=tekst1,font="Times 20 bold").grid(row=0,column=0,columnspan=2)
@@ -32,7 +36,9 @@ def instrukcja():
 def open_file():
     global x
     global y
+    global y2
     global z
+    global mean
     txt_file = tkinter.filedialog.askopenfilename(parent=master,
                                                   initialdir='/Users')
     with open(txt_file) as _file:
@@ -40,18 +46,17 @@ def open_file():
     txt_file2 = tkinter.filedialog.askopenfilename(parent=master,
                                                    initialdir='/Users')
     with open(txt_file2) as _file2:
-        z = np.loadtxt(_file2, delimiter='\n', unpack=True)
-
+        z = np.loadtxt(_file2)
+    mean =np.mean(z)
+    y2 = [x * mean for x in y]
 
 def create_graph():  # tworzenie wykresu
-    # x, y = np.loadtxt('example.txt', delimiter='\t', unpack=True)
-    plt.bar(x, y)
+    plt.bar(x, y2)
     plt.ylabel('Wartość natężenia ruchu')
     plt.xlabel('Czas od północy [min]')
     plt.title('Natezenie ruchu w systemie w danej minucie')
     plt.show()
-def obliczenia():
-    
+
 
 def autorzy():
     autorzy = tk.Tk()
@@ -66,17 +71,17 @@ def show_menu():
     Label(master, text='MENU APLIKACJI',
           width=30, font="Times 20 bold",bg='#B0C4DE').grid(row=0, pady=4, padx=4, column=0, columnspan=3)
     Button(master, text='Instrukcja',
-           command=instrukcja, width=25, height=5, font=20,bg='#308844').grid(row=1, column=0)
+           command=instrukcja, width=25, height=5, font=20,bg='lightgreen').grid(row=1, column=0)
     Button(master, text='Zaladuj pliki',
-           command=open_file, width=25, height=5, font=20).grid(row=1, column=1)
+           command=open_file, width=25, height=5, font=20,bg="#ff3333").grid(row=1, column=1)
     Button(master, text='Rysuj wykres',
-           command=create_graph, width=25, height=5, font=20).grid(row=2, column=0)
+           command=create_graph, width=25, height=5, font=20, bg="lightblue").grid(row=2, column=0)
     Button(master, text='Obliczenia',
-           command="", width=25, height=5, font=20).grid(row=2, column=1, pady=10)
+           command="", width=25, height=5, font=20,bg="#ffbb33").grid(row=2, column=1, pady=10)
     Button(master, text='Informacje',
-           command="", width=25, height=5, font=20).grid(row=3, column=0)
+           command="", width=25, height=5, font=20,bg="wheat").grid(row=3, column=0)
     Button(master, text='O autorach',
-           command=autorzy, width=25, height=5, font=20).grid(row=3, column=1)
+           command=autorzy, width=25, height=5, font=20,bg="lightpink").grid(row=3, column=1)
     master.mainloop()
 
 
